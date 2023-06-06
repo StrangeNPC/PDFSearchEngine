@@ -75,6 +75,7 @@ def highlight_query_terms(paragraph, query):
     )
     return highlighted_paragraph
 
+# Streamlit app code
 def main():
     st.title("PDF Search Engine")
     
@@ -83,13 +84,18 @@ def main():
     index_dir = os.path.join(current_dir, "SourceDocuments")
     
     st.sidebar.subheader("Search Options")
-    search_query = st.sidebar.text_input("Enter search query")
-    
+    placeholder = st.sidebar.empty()  # Create an empty placeholder
+
     if st.sidebar.button("Build Index"):
-        index = create_index(index_dir)
+        create_index(index_dir)
         st.sidebar.write("Index created successfully.")
     
+    search_query = placeholder.text_input("Enter search query", key="search_input")
+    
     if st.sidebar.button("Search"):
+        st.experimental_set_query_params(search_input=search_query)  # Update the query parameters
+    
+    if search_query:
         # Perform search and display results
         results = search_index(index_dir, search_query)
         
