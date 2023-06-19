@@ -43,7 +43,7 @@ def create_index(directory):
     return ix
 
 
-def search_index(index_dir, search_query):
+def search_index(index_dir, search_query, selected_documents):
     ix = open_dir(index_dir)
     query = QueryParser("content", ix.schema).parse(search_query)
     with ix.searcher() as searcher:
@@ -63,7 +63,7 @@ def search_index(index_dir, search_query):
                     matched_paragraph = paragraph
                     break
 
-            if matched_paragraph:
+            if matched_paragraph and os.path.basename(file_path) in selected_documents:
                 result = {
                     "file_path": file_path,
                     "page_number": page_number,
@@ -110,14 +110,22 @@ def main():
         create_index(index_dir)
         st.sidebar.write("Index created successfully.")
 
+    # Checkbox for document selection
+    selected_documents = st.sidebar.multiselect(
+        "Select Documents to Search",
+        [os.path.basename(doc) for doc in os.listdir(index_dir) if doc.endswith(".pdf")],
+    )
+
     search_query = placeholder.text_input("Enter search query", key="search_input")
 
     if st.sidebar.button("Search"):
         st.experimental_set_query_params(search_input=search_query)  # Update the query parameters
+        results = search_index(index_dir, search_query, selected_documents)  # Update the results based on selected documents
+        st.session_state.selected_documents = selected_documents  # Store the selected documents in session state
 
     if search_query:
         # Perform search and display results
-        results = search_index(index_dir, search_query)
+        results = search_index(index_dir, search_query, selected_documents)
 
         if results:
             st.subheader("Search Results")
