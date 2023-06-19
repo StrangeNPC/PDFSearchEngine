@@ -111,9 +111,11 @@ def main():
         st.sidebar.write("Index created successfully.")
 
     # Checkbox for document selection
+    all_documents = [os.path.basename(doc) for doc in os.listdir(index_dir) if doc.endswith(".pdf")]
     selected_documents = st.sidebar.multiselect(
         "Select Documents to Search",
-        [os.path.basename(doc) for doc in os.listdir(index_dir) if doc.endswith(".pdf")],
+        all_documents,
+        default=all_documents,  # Select all documents by default
     )
 
     search_query = placeholder.text_input("Enter search query", key="search_input")
@@ -164,4 +166,5 @@ def get_download_link(file_path, text):
 
 if __name__ == "__main__":
     main()
+
 
