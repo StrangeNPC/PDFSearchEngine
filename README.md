@@ -7,8 +7,7 @@ The PDF Search Engine is a python application that is mean't for directories wit
 It is mean't to be an answer to semantic-search AI question answering systems that hallucinate or become ineffective as scale of documents increases.
 
 
-![download page](https://github.com/StrangeNPC/PDFSearchEngine/assets/95240891/ff4b8f57-3824-4ac2-8121-6f6111a1e2d6)
-
+![download page](https://github.com/StrangeNPC/PDFSearchEngine/assets/95240891/685579a6-ab1c-45f3-9fa0-d5d4c15286b1)
 
 
 ## Prerequisites
